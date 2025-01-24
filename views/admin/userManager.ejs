@@ -1,0 +1,38 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="modal fade" id="userManagerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userManagerModalLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+				<p id="userManager-prompt"></p>
+            </div>
+            <div class="modal-footer">
+				<form action="/" method="POST" id="userManager-form">
+                    <button class="btn btn-danger">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3 border text-center">
+            <h1>User Manager</h1>
+            <div class="text-start">
+                <ul>
+                    <% allUsers.forEach(async function (user){ %>
+                        <li class="mb-2"><%= user.username %><button class="btn btn-danger ms-3" data-bs-toggle="modal" data-bs-target="#userManagerModal" onclick="fillUserManagerModal('<%= user.username %>', '<%= user._id %>')" <% if(user.isAdmin || user.username === 'guest') {%>disabled<% } %>>Delete User</li>
+                    <% }) %>
+                </ul>
+            </div>
+            <div id="show-events"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/userManagerScripts.js"></script>

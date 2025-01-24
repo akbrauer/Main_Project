@@ -1,0 +1,87 @@
+.username {
+    color: blue;
+}
+
+svg {
+    vertical-align: -.125em;
+}
+
+.explanation {
+    font-size: 13px;
+    font-style: italic;
+}
+
+.unstyled {
+    all: unset;
+}
+
+#delete-name, #delete-event-name {
+    font-weight: bold;
+}
+
+.calDay {
+    width: 14.285%;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 120px;
+    color: white;
+    text-align: center;
+}
+
+.calDayEnd {
+    border-bottom: 1px solid dimgray;
+}
+.calDayCorner {
+    border-right: 1px solid dimgray;
+}
+
+.calendar-body {
+    background-color:dimgray;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bd-rightside {
+    border-right: 1px solid black;
+}
+
+#bd-rightside {
+    border-right: 2px solid black;
+}
+
+.colHead {
+    width: 14.285%;
+    text-align: center;
+    border: 2px solid black;
+    border-right: none;
+}
+
+.calWeek {
+    display: flex;
+}
+
+.todos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.todo-item {
+    margin-left: 30px;
+}
+
+.shiftL {
+    margin-left: -12px;
+}
+
+li {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.calDate {
+    width: 20%;
+    text-align: center;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}

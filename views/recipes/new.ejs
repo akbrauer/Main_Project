@@ -1,0 +1,69 @@
+<% layout('/layouts/boilerplate') %>
+<div class="container">
+	<div class="row">
+		<h1 class="text-center">New Recipe</h1>
+		<div class="col-md-6 offset-md-3">
+			<form action="/recipes/new" method="POST" class="needs-validation" novalidate>
+				<div class="mb-3">
+					<label class="form-label" for="title">Recipe Name</label>
+					<input class="form-control" type="text" id="title" name="recipe[name]" required/>
+				</div>
+				<div class="mb-3">
+					<label for="image" class="form-label">Recipe Image</label>
+					<input class="form-control" type="file" name="recipe[img]" id="image" required>
+				</div>
+				<div class="mb-3">
+					<span>Recipe Ingredients</span></br>
+					<div class="mt-3">
+						<div class="mb-1"><span>Ingredient 1:</span></div>
+						<div class="input-group mb-1">
+							<span class="input-group-text">Amount / Unit</span>
+							<input type="text" aria-label="Amount" class="form-control" name="recipe[ingredient[amount]]" placeholder="1">
+							<input type="text" aria-label="Unit" class="form-control" name="recipe[ingredient[unit]]" placeholder="cup">
+						</div>
+						<div class="input-group mb-1">
+							<span class="input-group-text">Ingredient</span>
+							<input type="text" aria-label="Ingredient" class="form-control" name="recipe[ingredient[name]]" placeholder="milk" required>
+						</div>
+						<div class="input-group">
+							<span class="input-group-text">Notes</span>
+							<textarea type="text" aria-label="Notes" class="form-control" name="recipe[ingredient[notes]]" placeholder="we reccomend using 2% milk"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div id="ingredient-list"></div>
+
+				<div class="mb-3">
+					<button class="btn btn-secondary" type="button" id="btn-add-ing">Add Ingredient</button>
+				</div>
+
+				<div class="mb-3">
+					<span>Recipe Instructions</span><br>
+					<div class="mt-3 mb-3">
+						<div class="mb-1"><span>Step 1:</span></div>
+						<input class="form-control" type="text" id="instructions" name="recipe[instructions[1]]" required/>
+					</div>
+				</div>
+
+				<div id="instructions-list"></div>
+
+				<div class="mb-3">
+					<button class="btn btn-secondary" type="button" id="btn-add-inst">Add Step</button>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" for="servings">Recipe Servings</label>
+					<input class="form-control" type="number" id="servings" name="recipe[servings]"></input>
+				</div>
+
+				<div class="mb-3">
+					<button class="btn btn-success">Add Recipe</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="/javascripts/newRecipe.js"></script>

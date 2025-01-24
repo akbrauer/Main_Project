@@ -1,0 +1,39 @@
+<% layout('/layouts/boilerplate') %>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 offset-lg-2">
+			<div class="card">
+				<img src="<%= recipe.img %>" class="card-img-top img-md" alt="recipe image"/>
+				<div class="card-body">
+					<h3 class="card-title"><%= recipe.name %></h3>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<h5>Ingredients</h5>
+						<ul>
+							<% for(let ingredient of recipe.ingredients) {%>
+								<li class="mb-1">
+									<%= ingredient.amount %> <%= ingredient.unit %> <span class="ing-name"><%= ingredient.name %></span> 
+									<% if(ingredient.notes) {%>
+										<em><%= ingredient.notes %></em>
+									<% } %>
+								</li>
+							<% } %>
+						</ul>
+					</li>
+					<li class="list-group-item">
+						<h5>Steps</h5>
+						<ol>
+							<% for(let i = 0; i < recipe.instructions.length; i++) {%>
+							<li class="mb-1"><%= recipe.instructions[i]%></li>
+							<% } %>
+						</ol>
+					</li>
+				</ul>
+				<div class="card-body">
+					<a href="<%= recipe.url %>" class="card-link">Full Recipe</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

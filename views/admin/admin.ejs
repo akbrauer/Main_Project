@@ -1,0 +1,78 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="modal fade" id="adminModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="adminModalLabel"></h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p id="admin-prompt"></p>
+			</div>
+			<div class="modal-footer">
+				<form action="/" method="POST" id="admin-form">
+					<button class="btn btn-danger">Yes</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row text-center">
+		<h1>Admin Portal</h1>
+		<div class="col-6">
+			<div class="card">
+				<div class="card-header py-2">
+					<h4 class="card-title mb-0">Calendar Admin Functions</h4>
+					<span class="explanation">Be careful, these functions are irreversible!</span>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<div class="row mt-2">
+							<div class="col-10 offset-1">
+								<span class="fw-bold">Wipe Guest Demo Instances</span>
+								<button class="btn btn-warning py-1" data-bs-toggle="modal" data-bs-target="#adminModal" onclick="fillAdminModal('wipe')">
+									Wipe
+								</button>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="row mt-2">
+							<div class="col-10 offset-1 d-flex justify-content-center align-items-center">
+								<span class="fw-bold me-1">Open User Manager</span>
+								<form action="/admin/userManager" method="GET">
+									<button class="btn btn-warning py-1">Open</button>
+								</form>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="card">
+				<div class="card-header py-2">
+					<h4 class="card-title">Recipe Archive Admin Functions</h4>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<div class="row">
+							<span class="fw-bold mb-2">Add Recipe From Json</span>
+							<form action="/recipes/new/json" method="POST" class="needs-validation" novalidate>
+								<div class="mb-3">
+									<textarea class="form-control" id="json-text" rows="10" name="data" placeholder="Paste json here" required></textarea>
+								</div>
+								<button class="btn btn-warning">Submit</button>
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/javascripts/adminScripts.js"></script>
