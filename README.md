@@ -7,6 +7,7 @@ For demo purposes a live deployment of this app can be found at
 <ul>
   <li>Add Homepage</li>
   <li>ADD MOBILE RESPONSIVE DESIGN</li>
+  <li>Prevent Calendar Day div overflow</li>
   <li>Add loading notification</li>
   <li>Add new recipe .post route</li>
   <li>Add controller files & refactor routes</li>
