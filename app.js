@@ -94,10 +94,14 @@ app.use((req, res, next) => {
 
 //Routes
 
+app.get("/", (req, res) => {
+	res.redirect('/calendar');
+})
+
 app.use('/', calendarRoutes);
+app.use('/', adminRoutes);
 app.use('/', recipeRoutes);
 app.use('/', userRoutes);
-app.use('/', adminRoutes);
 
 app.all('*', (req, res, next) => {
 	next(new ExpressError('Page Not Found', 404));
