@@ -30,7 +30,7 @@ module.exports = {
             "https://minimalistbaker.com/",
             "https://theplantbasedschool.com/",
             "https://i0.wp.com/www.sweetandsorrel.com/",
-            // "https://images.unsplash.com/",
+            "https://images.unsplash.com/",
             // "https://res.cloudinary.com/<account>/",
             "https://apod.nasa.gov/",
         ],
