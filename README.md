@@ -1,2 +1,2 @@
 # Main_Project
-Public demo of primary practice project
+For demo purposes a live deployment of this app can be found at
