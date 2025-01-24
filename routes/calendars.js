@@ -9,7 +9,7 @@ const { isLoggedIn, addUser, validateEvent, validateTodo } = require('../middlew
 const catchAsync = require("../utils/catchAsync");
 const createTrashSchedule = require('../utils/createTrashSchedule');
 
-router.get("/calendar", catchAsync(async (req, res) => {
+router.get("/", catchAsync(async (req, res) => {
 	if (req.user) {
 		console.log(req.user.username);
 		const user = await User.findOne({ username: req.user.username }).populate("calendars.todos").populate("calendars.events");
@@ -22,7 +22,7 @@ router.get("/calendar", catchAsync(async (req, res) => {
 	}
 }));
 
-router.post("/calendar/todo", isLoggedIn, addUser, validateTodo, catchAsync(async (req, res) => {
+router.post("/todo", isLoggedIn, addUser, validateTodo, catchAsync(async (req, res) => {
 		const user = await User.findOne({ username: req.user.username });
 		let newTodo = new Todo(req.body.todo);
 		user.calendars[0].todos.push(newTodo);
@@ -32,7 +32,7 @@ router.post("/calendar/todo", isLoggedIn, addUser, validateTodo, catchAsync(asyn
 		res.redirect("/calendar");
 }));
 
-router.put("/calendar/todo", isLoggedIn, catchAsync(async (req, res) => {
+router.put("/todo", isLoggedIn, catchAsync(async (req, res) => {
 	//Add validateTodo middlware by changing body.itemId to /calendar/todo/:id
 	const todo = await Todo.findOneAndUpdate({ _id: req.body.itemId }, { title: req.body.todo.title });
 	await todo.save();
@@ -40,14 +40,14 @@ router.put("/calendar/todo", isLoggedIn, catchAsync(async (req, res) => {
 	res.redirect("/calendar");
 }));
 
-router.delete("/calendar/todo", isLoggedIn, catchAsync(async (req, res) => {
+router.delete("/todo", isLoggedIn, catchAsync(async (req, res) => {
 	//Add validateTodo middlware by changing body.itemId to /calendar/todo/:id
 		let todo = await Todo.findOneAndDelete({ _id: req.body.itemId });
 		req.flash("success", `${todo.title} deleted`);
 		res.redirect("/calendar");
 }));
 
-router.patch("/calendar/todo", isLoggedIn, catchAsync(async (req, res) => {
+router.patch("/todo", isLoggedIn, catchAsync(async (req, res) => {
 	//Add validateEvent middlware by changing body.itemId to /calendar/todo/:id
 	const user = await User.findOne({ username: req.user.username });
 	let newEvent = new Event(req.body.event);
@@ -59,7 +59,7 @@ router.patch("/calendar/todo", isLoggedIn, catchAsync(async (req, res) => {
 	res.redirect("/calendar");
 }));
 
-router.post("/calendar/event", isLoggedIn, addUser, validateEvent, catchAsync(async (req, res) => {
+router.post("/event", isLoggedIn, addUser, validateEvent, catchAsync(async (req, res) => {
 		const user = await User.findOne({ username: req.user.username });
 		const newEvent = new Event(req.body.event);
 		user.calendars[0].events.push(newEvent);
@@ -69,7 +69,7 @@ router.post("/calendar/event", isLoggedIn, addUser, validateEvent, catchAsync(as
 		res.redirect("/calendar");
 }));
 
-router.put("/calendar/event", isLoggedIn, catchAsync(async (req, res) => {
+router.put("/event", isLoggedIn, catchAsync(async (req, res) => {
 	//Add validateEvent middlware by changing body.eventId to /calendar/event/:id
 	const event = await Event.findOneAndUpdate({ _id: req.body.eventId }, { ...req.body.event });
 	await event.save();
@@ -77,14 +77,14 @@ router.put("/calendar/event", isLoggedIn, catchAsync(async (req, res) => {
 	res.redirect("/calendar");
 }));
 
-router.delete("/calendar/event", isLoggedIn, catchAsync(async (req, res) => {
+router.delete("/event", isLoggedIn, catchAsync(async (req, res) => {
 	//Add validateEvent middlware by changing body.eventId to /calendar/event/:id
 	let event = await Event.findOneAndDelete({ _id: req.body.eventId });
 	req.flash("success", `${event.title} deleted`);
 	res.redirect("/calendar");
 }));
 
-router.post("/calendar/event/trash", isLoggedIn, catchAsync(async (req, res) => {
+router.post("/event/trash", isLoggedIn, catchAsync(async (req, res) => {
 	//Restructure to allow Joi Schema validation
 	//Possibly create separate eventMultiJoiSchema with array of valid event objects
 	//and switch logic to server-side in calendarScripts onclick

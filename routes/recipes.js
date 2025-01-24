@@ -4,16 +4,16 @@ const Recipe = require('../models/recipe.js');
 
 const catchAsync = require("../utils/catchAsync");
 
-router.get("/recipes", catchAsync(async (req, res) => {
+router.get("/", catchAsync(async (req, res) => {
 	const recipes = await Recipe.find({});
 	res.render("recipes/index", { recipes });
 }))
 
-router.get("/recipes/new", (req, res) => {
+router.get("/new", (req, res) => {
 	res.render("recipes/new");
 });
 
-router.get("/recipes/:id", catchAsync(async (req, res) => {
+router.get("/:id", catchAsync(async (req, res) => {
 	const recipe = await Recipe.findById(req.params.id);
 	console.log(recipe);
 	if(!recipe){
@@ -24,7 +24,7 @@ router.get("/recipes/:id", catchAsync(async (req, res) => {
 	}
 }))
 
-router.post("/recipes/new/json", catchAsync(async (req, res) => {
+router.post("/new/json", catchAsync(async (req, res) => {
 	if (req.user && req.user.isAdmin) {
 		try {
 			let data = req.body.data;

@@ -95,12 +95,12 @@ app.use((req, res, next) => {
 //Routes
 
 app.get("/", (req, res) => {
-	res.redirect('/calendar');
+	res.render('/calendar');
 })
 
-app.use('/', calendarRoutes);
-app.use('/', adminRoutes);
-app.use('/', recipeRoutes);
+app.use('/calendar', calendarRoutes);
+app.use('/admin', adminRoutes);
+app.use('/recipes', recipeRoutes);
 app.use('/', userRoutes);
 
 app.all('*', (req, res, next) => {

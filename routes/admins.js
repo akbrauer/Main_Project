@@ -18,16 +18,16 @@ router.use((req, res, next) => {
 	};
 });
 
-router.get("/admin", (req, res) => {
+router.get("/", (req, res) => {
 	res.render("admin/admin");
 });
 
-router.get("/admin/userManager", catchAsync(async (req, res) => {
+router.get("/userManager", catchAsync(async (req, res) => {
 	let allUsers = await User.find();
 	res.render("admin/userManager", { allUsers });
 }));
 
-router.delete("/admin/userManager/:id", catchAsync(async (req, res) => {
+router.delete("/userManager/:id", catchAsync(async (req, res) => {
 	const { id } = req.params;
 	let user = await User.findById(id);
 	console.log("user found: ", user);
@@ -48,7 +48,7 @@ router.delete("/admin/userManager/:id", catchAsync(async (req, res) => {
 	res.redirect("/admin/userManager");
 }));
 
-router.post("/admin/wipe", catchAsync(async (req, res) => {
+router.post("/wipe", catchAsync(async (req, res) => {
 	wipeDemos();
 	req.flash("success", "Successfully deleted all GuestDemo instances");
 	res.redirect("/admin");
