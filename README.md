@@ -10,5 +10,6 @@ Do be aware that since this is hosted at a free service, the server may take up 
   <li>Prevent Calendar Day div overflow</li>
   <li>Add loading notification</li>
   <li>Add new recipe .post route</li>
+  <li>Add recipe picture autoupload to cloudinary</li>
   <li>Add controller files & refactor routes</li>
 </ul>
