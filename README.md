@@ -1,5 +1,6 @@
-# Main_Project
-For demo purposes a live deployment of this app can be found at
+# Personal Planner & Recipe Archive
+For demo purposes a live deployment of this app can be found at https://akbrauer.onrender.com/
+Do be aware that since this is hosted at a free service, the server may take up to a minute to wake up from rest when the domain is first accessed 
 
 
 
