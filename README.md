@@ -12,5 +12,6 @@ Do be aware that since this is hosted at a free service, the server may take up 
   <li>Add loading notification</li>
   <li>Add new recipe .post route</li>
   <li>Add recipe picture autoupload to cloudinary</li>
+  <li>Populate recipe archive with data</li>
   <li>Add controller files & refactor routes</li>
 </ul>
