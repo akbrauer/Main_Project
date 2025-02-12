@@ -5,9 +5,10 @@ Do be aware that since this is hosted at a free service, the server may take up 
 
 ## Todo List:
 <ul>
+  <li>FIX DS_STORE GITIGNORE</li>
   <li>Streamline Homepage</li>
   <li>ADD MOBILE RESPONSIVE DESIGN</li>
-  <li>Fix apod return video error handling</li>
+  <li>Fix apod return video error handling FIXED</li>
   <li>Prevent Calendar Day div overflow</li>
   <li>Add loading notification</li>
   <li>Add new recipe .post route</li>
