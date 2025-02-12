@@ -268,7 +268,7 @@ console.log(today.getDay());
 
 let offset = 0;
 
-setBackground();
+setBackground(today.toISOString().slice(0, 10));
 buildCalendar(offset);
 
 window.addEventListener("load", function () {
