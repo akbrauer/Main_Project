@@ -6,7 +6,7 @@ Do be aware that since this is hosted at a free service, the server may take up 
 ## Todo List:
 <ul>
   <li>FIX DS_STORE GITIGNORE</li>
-  <li>Streamline Homepage</li>
+  <li>Fix homepage source image performance</li>
   <li>Improve mobile responsive design</li>
   <li>Add horizontal calendar scroll mobile?? (avoid if possible)</li>
   <li>Fix apod return video error handling FIXED</li>
