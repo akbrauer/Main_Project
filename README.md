@@ -10,6 +10,7 @@ Do be aware that since this is hosted at a free service, the server may take up 
   <li>Improve mobile responsive design</li>
   <li>Add horizontal calendar scroll mobile?? (avoid if possible)</li>
   <li>Fix apod return video error handling FIXED</li>
+  <li>Add password constraints</li>
   <li>Prevent Calendar Day div overflow</li>
   <li>Add loading notification</li>
   <li>Add new recipe .post route</li>
