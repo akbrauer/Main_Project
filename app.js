@@ -103,6 +103,10 @@ app.get("/", (req, res) => {
 	res.render("home");
 });
 
+app.get("/cronjob", (req, res) => {
+	res.send("Wakefulness maintained");
+});
+
 app.all('*', (req, res, next) => {
 	next(new ExpressError('Page Not Found', 404));
 })
