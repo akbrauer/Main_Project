@@ -2,3 +2,4 @@
 node_modules/
 utils/scrape.js
 utils/seedData.js
+.DS_STORE
