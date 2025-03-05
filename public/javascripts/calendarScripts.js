@@ -1,36 +1,37 @@
-const fetchData = async function (date) {
-	if (date) {
-		apodURL = `https://api.nasa.gov/planetary/apod?api_key=${apodKey}&date=${date}`;
-	} else {
-		apodURL = `https://api.nasa.gov/planetary/apod?api_key=${apodKey}`;
-	}
-	const data = await fetch(apodURL);
-	const parsed = await data.json();
-	return parsed;
-};
+//Removed APOD API Implementation due to excessive API calls
+// const fetchData = async function (date) {
+// 	if (date) {
+// 		apodURL = `https://api.nasa.gov/planetary/apod?api_key=${apodKey}&date=${date}`;
+// 	} else {
+// 		apodURL = `https://api.nasa.gov/planetary/apod?api_key=${apodKey}`;
+// 	}
+// 	const data = await fetch(apodURL);
+// 	const parsed = await data.json();
+// 	return parsed;
+// };
 
-const setBackground = async function (date) {
-	let data = await fetchData(date);
-	if (data.media_type !== "image") {
-		console.log(`Call did not return image, returned ${data.media_type}`);
-		let getNewData = async function () {
-			for (let x = 1; x < 5; x++) {
-				const newDate = new Date(Date.parse(date) - x * 1000 * 60 * 60 * 24).toISOString().slice(0, 10);
-				console.log(`Date ${x} days before`, newDate);
-				let newData = await fetchData(newDate);
-				console.log(`Data for ${x} days before: `, newData);
-				if (newData.media_type === "image") {
-					console.log("Media type is image now");
-					return newData;
-				}
-			}
-		};
-		data = await getNewData();
-	}
-	console.log(data);
-	document.querySelector(".calendar-body").style.backgroundImage = `url(${data.url})`;
-	console.log(document.querySelector(".calendar-body").style.backgroundImage);
-};
+// const setBackground = async function (date) {
+// 	let data = await fetchData(date);
+// 	if (data.media_type !== "image") {
+// 		console.log(`Call did not return image, returned ${data.media_type}`);
+// 		let getNewData = async function () {
+// 			for (let x = 1; x < 5; x++) {
+// 				const newDate = new Date(Date.parse(date) - x * 1000 * 60 * 60 * 24).toISOString().slice(0, 10);
+// 				console.log(`Date ${x} days before`, newDate);
+// 				let newData = await fetchData(newDate);
+// 				console.log(`Data for ${x} days before: `, newData);
+// 				if (newData.media_type === "image") {
+// 					console.log("Media type is image now");
+// 					return newData;
+// 				}
+// 			}
+// 		};
+// 		data = await getNewData();
+// 	}
+// 	console.log(data);
+// 	document.querySelector(".calendar-body").style.backgroundImage = `url(${data.url})`;
+// 	console.log(document.querySelector(".calendar-body").style.backgroundImage);
+// };
 
 const customSubmitContacts = function () {
 	console.log("custom submit");
@@ -268,7 +269,7 @@ console.log(today.getDay());
 
 let offset = 0;
 
-setBackground(today.toISOString().slice(0, 10));
+// setBackground(today.toISOString().slice(0, 10));
 buildCalendar(offset);
 
 window.addEventListener("load", function () {
