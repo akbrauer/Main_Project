@@ -3,7 +3,7 @@ For demo purposes a live deployment of this app can be found at https://akbrauer
 
 Do be aware that since this is hosted at a free service, the server may take up to a minute to wake up from rest when the domain is first accessed. To experiment with the Personal Planner (Calendar) application's features, start a Guest Demo using the prompt at the top. This is the best way to quickly see the site's functionality.
 
-## Todo List:
+## Todo List
 <ul>
   <li>FIX DS_STORE GITIGNORE</li>
   <li>Fix Login/Signup width on mobile</li>
