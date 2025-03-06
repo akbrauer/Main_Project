@@ -29,20 +29,9 @@
 // 		data = await getNewData();
 // 	}
 // 	console.log(data);
-// 	document.querySelector(".calendar-body").style.backgroundImage = `url(${data.url})`;
-// 	console.log(document.querySelector(".calendar-body").style.backgroundImage);
+// 	document.querySelector(".calendar-content").style.backgroundImage = `url(${data.url})`;
+// 	console.log(document.querySelector(".calendar-content").style.backgroundImage);
 // };
-
-const customSubmitContacts = function () {
-	console.log("custom submit");
-	let dateInit = document.querySelector("#contacts-date").valueAsDate;
-	console.log(dateInit);
-	let dateMod = new Date(dateInit.setDate(dateInit.getDate() + 14));
-	let dateFinal = dateMod.toISOString().slice(0, 10);
-	console.log(dateFinal);
-	document.querySelector("#contacts-date-final").value = dateFinal;
-	document.querySelector("#form-contact").requestSubmit();
-};
 
 const numToMonth = function (num) {
 	switch (num) {
@@ -136,16 +125,18 @@ const addMonthBorders = function () {
 	let borders = 0;
 	let corners = 0;
 	for (x = 0; x < days.length; x++) {
+		//Adding grey borders to bottom of month boundary
 		if (borders < 7) {
 			if (days[x + 7] && days[x].id.slice(3, 5) > days[x + 7].id.slice(3, 5)) {
-				console.log("border region");
+				// console.log("border region");
 				days[x].classList.add("calDayEnd");
 				borders++;
 			}
 		}
+		//Adding grey borders to right of month boundary
 		if (corners < 2) {
 			if (days[x + 1] && days[x].id.slice(3, 5) > days[x + 1].id.slice(3, 5)) {
-				console.log("corner");
+				// console.log("corner");
 				days[x].classList.add("calDayCorner");
 				corners++;
 			}
@@ -153,13 +144,14 @@ const addMonthBorders = function () {
 	}
 };
 
-let buildCalendar = offset => {
+const buildCalendar = offset => {
 	//Building Calendar
 	const daysBefore = function (x) {
 		return new Date(Date.now() + offset * 1000 * 60 * 60 * 24 - x * (1000 * 60 * 60 * 24));
 	};
 	let calendarBody = document.querySelector(".calendar-body");
 	calendarBody.innerHTML = "";
+
 	for (let w = 0; w < 5; w++) {
 		let calWeek = document.createElement("div");
 		calWeek.classList.add("calWeek");
@@ -212,7 +204,6 @@ let buildCalendar = offset => {
 	}
 	document.querySelector(".calMonth").innerText = numToMonth(parseInt(document.querySelectorAll(".calWeek")[1].children[3].id.slice(0, 2)) - 1);
 	addMonthBorders();
-	//Building Calendar
 
 	//Adding Events
 	for (let event of calendars.events) {
@@ -250,10 +241,22 @@ let buildCalendar = offset => {
 			document.getElementById(monthDay).appendChild(newEvent);
 		}
 	}
-	//Adding Events
+
+	//Refreshing Popovers
+	try {
+		if(bootstrap){
+			const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+			const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, {
+			sanitize: false,
+			html: true
+			}));
+		};
+	} catch (error) {
+		console.log("Initial Load: No popover refresh");
+	}
 };
 
-let offsetCalendar = direction => {
+const offsetCalendar = direction => {
 	if (direction === "+") {
 		offset = offset + 7;
 	} else if (direction === "-") {
@@ -262,23 +265,37 @@ let offsetCalendar = direction => {
 	buildCalendar(offset);
 };
 
-let today = new Date(Date.now());
-let dl = 6 - today.getDay();
+const customSubmitContacts = function () {
+	console.log("custom submit");
+	let dateInit = document.querySelector("#contacts-date").valueAsDate;
+	console.log(dateInit);
+	let dateMod = new Date(dateInit.setDate(dateInit.getDate() + 14));
+	let dateFinal = dateMod.toISOString().slice(0, 10);
+	console.log(dateFinal);
+	document.querySelector("#contacts-date-final").value = dateFinal;
+	document.querySelector("#form-contact").requestSubmit();
+};
+
+const today = new Date(Date.now());
+const dl = 6 - today.getDay();
 console.dir(today);
-console.log(today.getDay());
 
 let offset = 0;
 
 // setBackground(today.toISOString().slice(0, 10));
 buildCalendar(offset);
 
-window.addEventListener("load", function () {
-	document.getElementById("guest-link").addEventListener("click", function (e) {
-		e.preventDefault();
-		document.getElementById("demo-form").submit();
+//Adding Guest Demo Link Handler
+if(document.getElementById("guest-link")){
+	window.addEventListener("load", function () {
+		document.getElementById("guest-link").addEventListener("click", function (e) {
+			e.preventDefault();
+			document.getElementById("demo-form").submit();
+		});
 	});
-});
+};
 
+//Adding Trash Form Event Listeners
 document.querySelector("#trash-initial").addEventListener("change", function () {
 	document.querySelector("#both-check").classList.add("d-none");
 	document.querySelector("#trash-check").classList.add("d-none");
@@ -295,5 +312,6 @@ document.querySelector("#both-initial").addEventListener("change", function () {
 	document.querySelector("#recycling-check").classList.add("d-none");
 });
 
+//Adding Default Date Values
 document.querySelector("#contacts-date").value = today.toISOString().slice(0, 10);
 document.querySelector("#trash-date").value = today.toISOString().slice(0, 10);

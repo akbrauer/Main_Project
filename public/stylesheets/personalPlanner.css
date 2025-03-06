@@ -21,6 +21,7 @@ svg {
 
 .calDay {
     width: 14.285%;
+    min-width: 100px;
     border-left: 1px solid black;
     border-bottom: 1px solid black;
     height: 120px;
@@ -35,10 +36,11 @@ svg {
     border-right: 1px solid dimgray;
 }
 
-.calendar-body {
+.calendar-content {
     background-color:dimgray;
+    overflow-x: scroll;
     background-image: url("https://res.cloudinary.com/dviijvxfy/image/upload/v1741176726/M33_2048-Sm_fmwy9k.jpg");
-    background-size: cover;
+    background-size:cover;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -53,9 +55,11 @@ svg {
 
 .colHead {
     width: 14.285%;
+    min-width: 100px;
     text-align: center;
     border: 2px solid black;
     border-right: none;
+    background-color: white;
 }
 
 .calWeek {

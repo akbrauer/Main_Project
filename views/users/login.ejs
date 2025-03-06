@@ -4,7 +4,7 @@
 		<div class="col-6 offset-3">
 			<h1>Log In</h1>
 			<div>
-				<form action="/login" method="POST">
+				<form action="/login" method="POST" class="needs-validation" novalidate>
 					<div class="mb-2">
 						<label class="form-label" for="username">Username</label>
 						<input class="form-control mb-2" type="text" name="username" id="username" required />
@@ -19,3 +19,4 @@
 		</div>
 	</div>
 </div>
+<script src="/javascripts/validateForms.js"></script>
