@@ -119,7 +119,7 @@
 
 <% if(!currentUser) {%>
 	<div class="alert alert-warning alert-dismissible fade show" role="alert">
-		Not logged in. <a href="" id="guest-link">Display a guest demo<a/>, or <a href="/login">Log in</a> / <a href="/signup">sign up</a> to build a personal calendar.
+		Not logged in. <a href="" id="guest-link">Display a guest demo<a/>, or <a href="/login">Log in</a> / <a href="/signup">Sign up</a> to build a personal calendar.
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 <% } %>
@@ -151,7 +151,7 @@
 			<div class="col-6">
 				<form action="/calendar/todo" method="POST" class="needs-validation" novalidate>
 					<div class="input-group input-group-sm mb-3">
-						<span class="input-group-text">Add New Unscheduled Event</span>
+						<span class="input-group-text">Add New Todo Item</span>
 						<input class="form-control" type="text" name="todo[title]" required/>
 						<button class="btn btn-outline-primary">Add</button>
 					</div>
