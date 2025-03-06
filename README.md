@@ -7,15 +7,13 @@ Note: The server's wakefulness is currently being maintained via a cronjob, so o
 
 ## Todo List
 <ul>
-  <li>FIX DS_STORE GITIGNORE</li>
-  <li>Fix Login/Signup width on mobile</li>
-  <li>Fix homepage source image performance</li>
   <li>Add password constraints</li>
   <li>Add loading notification</li>
   <li>Add new recipe .post route</li>
   <li>Add recipe picture autoupload to cloudinary</li>
   <li>Populate recipe archive with additional data</li>
   <li>Add controller files & refactor routes</li>
+  <li>Fix homepage source image performance</li>
   <li>Prevent Calendar Day div overflow</li>
 </ul>
 
