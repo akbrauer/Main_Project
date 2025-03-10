@@ -232,7 +232,9 @@ const buildCalendar = offset => {
 				blob += '</br><span class="eventNotes">' + event.notes + "</span></div>";
 			}
 			newEvent.setAttribute("data-bs-content", blob + popContent);
-			let newText = document.createElement("a");
+			let newText = document.createElement("span");
+			newText.setAttribute("role", "button");
+			newText.setAttribute("aria-haspopup", "true");
 			newText.classList.add("unstyled", "shiftL");
 			newText.setAttribute("tabindex", "0");
 			newText.setAttribute("id", `event-${event._id}`);
