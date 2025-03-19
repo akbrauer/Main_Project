@@ -4,7 +4,7 @@
             <% for(let recipe of recipes){ %>
                 <div class="col-6 col-md-4 col-xl-3">
                     <a class="card h-auto text-decoration-none mt-2" href="/recipes/<%= recipe._id %>" class="card-link">
-                        <img src="<%= recipe.img %>" class="card-img-top" alt="recipe image"/>
+                        <img src="<%= recipe.img %>" class="card-img-top" alt="<%= recipe.name %> thumbnail image"/>
                         <div class="card-body p-2">
                             <h5 class="card-title text-center mb-0"><%= recipe.name %></h5>
                         </div>
@@ -14,12 +14,10 @@
 	</div>
 </div>
 <style>
-
     h5 { font-size: calc(0.3rem + 1.5vw); font-weight: bold;}
     img{
         height: 150px;
     }
-
     @media only screen and (min-width: 440px){
             img {height: 225px}
     }
@@ -39,10 +37,3 @@
             img {height: 300px}
     }
 </style>
-
-<!-- Extra small	None	<576px
-Small	sm	≥576px
-Medium	md	≥768px
-Large	lg	≥992px
-Extra large	xl	≥1200px
-Extra extra large	xxl	≥1400px -->

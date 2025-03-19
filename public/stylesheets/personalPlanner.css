@@ -29,11 +29,37 @@ svg.todo-icons {
     text-align: center;
 }
 
+.mydot{
+    background: white;
+    border-radius: 50%;
+    display: inline-block;
+    height: 6px;
+    margin: 0px 4px 2px 0px;
+    width: 6px;
+}
+
 .calDayEnd {
-    border-bottom: 1px solid dimgray;
+    border-bottom: 1px solid grey;
 }
 .calDayCorner {
-    border-right: 1px solid dimgray;
+    border-right: 1px solid grey;
+}
+
+.show-overflow {
+    margin: 0px 2px;
+    margin-left: auto;
+    padding: 0px;
+    font-size: x-small;
+    color: white;
+}
+
+.show-overflow:hover {
+    color: grey;
+}
+
+.calDayBody {
+    padding: 0px 3px;
+    font-size: calc(10px + 0.5vw);
 }
 
 .calendar-content {
@@ -79,7 +105,7 @@ svg.todo-icons {
 }
 
 #todo-buttons {
-    margin-left: -10px;
+    margin-left: -0.5rem;
 }
 
 .add-focus:focus {
@@ -95,18 +121,21 @@ svg.todo-icons {
     margin-left: 20px;
 }
 
-.shiftL {
-    margin-left: -12px;
-}
-
-li {
-    margin-left: 2px;
-    margin-right: 2px;
-}
-
 .calDate {
     width: 20%;
     text-align: center;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
+}
+
+@media only screen and (max-width: 768px){
+    .mydot {
+        height: 5px;
+        margin: 0px 3px 2px 0px;
+        width: 5px;
+    }
+
+    .show-overflow{
+        font-size: xx-small;
+    }
 }

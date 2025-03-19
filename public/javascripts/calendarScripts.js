@@ -157,12 +157,16 @@ const buildCalendar = offset => {
 		calWeek.classList.add("calWeek");
 		for (let d = 0; d < 7; d++) {
 			let calDay = document.createElement("div");
-			calDay.classList.add("calDay");
+			calDay.classList.add("calDay", 'overflow-y-hidden');
 			if (d === 6) {
 				calDay.classList.add("bd-rightside");
 			}
+			let calDayHeader = document.createElement('div');
+			calDayHeader.classList.add('calDayHeader', 'd-flex');
 			let calDate = document.createElement("div");
 			calDate.classList.add("calDate");
+			let calDayBody = document.createElement("div");
+			calDayBody.classList.add('calDayBody');
 			let dateObj;
 			let dateVal;
 			switch (w) {
@@ -197,7 +201,9 @@ const buildCalendar = offset => {
 					calDay.setAttribute("id", addZero(dateObj.getMonth() + 1) + "-" + addZero(dateVal));
 					break;
 			}
-			calDay.appendChild(calDate);
+			calDayHeader.appendChild(calDate);
+			calDay.appendChild(calDayHeader);
+			calDay.appendChild(calDayBody);
 			calWeek.appendChild(calDay);
 		}
 		calendarBody.appendChild(calWeek);
@@ -213,7 +219,7 @@ const buildCalendar = offset => {
 		</div>`;
 		let monthDay = event.date.slice(5, 10);
 		if (document.getElementById(monthDay)) {
-			let newEvent = document.createElement("li");
+			const newEvent = document.createElement("div");
 			newEvent.setAttribute("data-bs-toggle", "popover");
 			newEvent.setAttribute("data-bs-trigger", "focus");
 			newEvent.setAttribute("data-bs-title", event.title);
@@ -233,6 +239,9 @@ const buildCalendar = offset => {
 			}
 			newEvent.setAttribute("data-bs-content", blob + popContent);
 			let newText = document.createElement("span");
+			let dot = document.createElement('span');
+			dot.classList.add('mydot');
+			newEvent.appendChild(dot);
 			newText.setAttribute("role", "button");
 			newText.setAttribute("aria-haspopup", "true");
 			newText.classList.add("unstyled", "shiftL");
@@ -240,9 +249,25 @@ const buildCalendar = offset => {
 			newText.setAttribute("id", `event-${event._id}`);
 			newEvent.appendChild(newText);
 			newText.innerText = event.title;
-			document.getElementById(monthDay).appendChild(newEvent);
-		}
-	}
+			document.getElementById( monthDay).children[1].appendChild(newEvent);
+			if(document.getElementById(monthDay).scrollHeight > document.getElementById(monthDay).offsetHeight){
+				let showOverflow = document.createElement('button');
+				showOverflow.classList.add('show-overflow', 'btn', 'btn-link');
+				showOverflow.setAttribute('type', 'button');
+				showOverflow.innerText = "show more";
+				document.getElementById(monthDay).children[0].appendChild(showOverflow);
+				showOverflow.addEventListener('click', (e) => {
+					e.target.parentElement.parentElement.classList.toggle('overflow-y-hidden');
+					e.target.parentElement.parentElement.classList.toggle('overflow-y-scroll');
+					if(e.target.innerText === 'show more'){
+						e.target.innerText = 'hide';
+					} else {
+						e.target.innerText = "show more";
+					};
+				});
+			};
+		};
+	};
 
 	//Refreshing Popovers
 	try {
