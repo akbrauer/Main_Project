@@ -94,14 +94,14 @@ const fillEventModal = function (type, id) {
 		document.querySelector("#delete-event-name").innerText = eventName;
 		console.log("fillEventDelete");
 	} else if (type === "edit") {
-		let eventDate = document.querySelector(`#eventPopover-${id} span.eventDateOrig`).innerText;
+		let eventDate = document.querySelector(`#popoverDetails-${id} span.eventDateOrig`).innerText;
 		let eventTime;
-		if (document.querySelector(`#eventPopover-${id} span.eventTime`)) {
-			eventTime = document.querySelector(`#eventPopover-${id} span.eventTime`).innerText;
+		if (document.querySelector(`#popoverDetails-${id} span.eventTime`)) {
+			eventTime = document.querySelector(`#popoverDetails-${id} span.eventTime`).innerText;
 		}
 		let eventNotes;
-		if (document.querySelector(`#eventPopover-${id} span.eventNotes`)) {
-			eventNotes = document.querySelector(`#eventPopover-${id} span.eventNotes`).innerText;
+		if (document.querySelector(`#popoverDetails-${id} span.eventNotes`)) {
+			eventNotes = document.querySelector(`#popoverDetails-${id} span.eventNotes`).innerText;
 		}
 		document.querySelector("#edit-event-id").value = id;
 		document.querySelector("#edit-event-name").value = eventName;
@@ -144,63 +144,44 @@ const addMonthBorders = function () {
 	}
 };
 
-const buildCalendar = offset => {
-	//Building Calendar
-	const daysBefore = function (x) {
-		return new Date(Date.now() + offset * 1000 * 60 * 60 * 24 - x * (1000 * 60 * 60 * 24));
-	};
+//Arg: daysFromToday = - when before, + when after Date.now()
+const getTargetDate = function (daysFromToday) {
+	const dayInMs = 1000 * 60 * 60 * 24;
+	const daysFromTodayMs = Date.now() + (daysFromToday * dayInMs);
+	const withViewerOffset = daysFromTodayMs + (offset * dayInMs)
+	return new Date(withViewerOffset);
+};
+
+const fillCalendarDates = (targetWeek, targetDay, calDay, calDate) => {
+	const weeksBetween = targetWeek * 7;
+	const daysFromToday = targetDay - today.getDay() + weeksBetween;
+	const dateObj = getTargetDate(daysFromToday);
+	const dateVal = dateObj.getDate();
+	calDate.innerText = dateVal;
+	calDay.setAttribute("id", dateObj.toISOString().slice(5,10));
+}
+
+const buildCalendarFrame = () => {
 	let calendarBody = document.querySelector(".calendar-body");
 	calendarBody.innerHTML = "";
 
-	for (let w = 0; w < 5; w++) {
-		let calWeek = document.createElement("div");
+	for (let week = 0; week < 5; week++) {
+		const calWeek = document.createElement("div");
 		calWeek.classList.add("calWeek");
-		for (let d = 0; d < 7; d++) {
-			let calDay = document.createElement("div");
+
+		for (let day = 0; day < 7; day++) {
+			const calDay = document.createElement("div");
 			calDay.classList.add("calDay", 'overflow-y-hidden');
-			if (d === 6) {
-				calDay.classList.add("bd-rightside");
-			}
-			let calDayHeader = document.createElement('div');
+			if (day === 6) calDay.classList.add("bd-rightside");
+			const calDayHeader = document.createElement('div');
 			calDayHeader.classList.add('calDayHeader', 'd-flex');
-			let calDate = document.createElement("div");
+			const calDate = document.createElement("div");
 			calDate.classList.add("calDate");
-			let calDayBody = document.createElement("div");
+			const calDayBody = document.createElement("div");
 			calDayBody.classList.add('calDayBody');
-			let dateObj;
-			let dateVal;
-			switch (w) {
-				case 0:
-					dateObj = daysBefore(today.getDay() - d);
-					dateVal = dateObj.getDate();
-					calDate.innerText = dateVal;
-					calDay.setAttribute("id", addZero(dateObj.getMonth() + 1) + "-" + addZero(dateVal));
-					break;
-				case 1:
-					dateObj = daysBefore(-(d + 1 + dl));
-					dateVal = dateObj.getDate();
-					calDate.innerText = dateVal;
-					calDay.setAttribute("id", addZero(dateObj.getMonth() + 1) + "-" + addZero(dateVal));
-					break;
-				case 2:
-					dateObj = daysBefore(-(d + 1 + dl + 7));
-					dateVal = dateObj.getDate();
-					calDate.innerText = dateVal;
-					calDay.setAttribute("id", addZero(dateObj.getMonth() + 1) + "-" + addZero(dateVal));
-					break;
-				case 3:
-					dateObj = daysBefore(-(d + 1 + dl + 14));
-					dateVal = dateObj.getDate();
-					calDate.innerText = dateVal;
-					calDay.setAttribute("id", addZero(dateObj.getMonth() + 1) + "-" + addZero(dateVal));
-					break;
-				case 4:
-					dateObj = daysBefore(-(d + 1 + dl + 21));
-					dateVal = dateObj.getDate();
-					calDate.innerText = dateVal;
-					calDay.setAttribute("id", addZero(dateObj.getMonth() + 1) + "-" + addZero(dateVal));
-					break;
-			}
+
+			fillCalendarDates(week, day, calDay, calDate);
+
 			calDayHeader.appendChild(calDate);
 			calDay.appendChild(calDayHeader);
 			calDay.appendChild(calDayBody);
@@ -208,68 +189,81 @@ const buildCalendar = offset => {
 		}
 		calendarBody.appendChild(calWeek);
 	}
-	document.querySelector(".calMonth").innerText = numToMonth(parseInt(document.querySelectorAll(".calWeek")[1].children[3].id.slice(0, 2)) - 1);
-	addMonthBorders();
+}
 
-	//Adding Events
-	for (let event of calendars.events) {
-		let popContent = `<div class="d-flex flex-row-reverse popButtons mt-1">
+const createPopoverContent = (event) => {
+	let popContent = `<div class="d-flex flex-row-reverse popButtons mt-1">
 			<button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteEventModal" onclick="fillEventModal('delete', '${event._id}')">Delete</button>
 			<button class="btn btn-sm btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#editEventModal" onclick="fillEventModal('edit', '${event._id}')">Edit</button>
 		</div>`;
+
+	let details = `<div id="popoverDetails-${event._id}">`;
+	if (event.time) {
+		details += '<span class="eventTime">' + event.time + " </span>";
+	}
+	details += `<span class="eventDateOrig d-none">${event.date}</span>`;
+	details += '<span class="eventDate">' + numToMonth(+event.date.slice(5, 7) - 1) + " ";
+	let eventMonth = event.date.slice(8, 10);
+	if (eventMonth.startsWith(0)) {
+		eventMonth = eventMonth.slice(1);
+	}
+	details += eventMonth + ", " + event.date.slice(0, 4) + "";
+	if (event.notes) {
+		details += '</br><span class="eventNotes">' + event.notes + "</span></div>";
+	}
+	return [popContent, details];
+}
+
+const addOverflowScroll = (element) => {
+		let showOverflow = document.createElement('button');
+		showOverflow.classList.add('show-overflow', 'btn', 'btn-link');
+		showOverflow.setAttribute('type', 'button');
+		showOverflow.innerText = "show more";
+		element.children[0].appendChild(showOverflow);
+		showOverflow.addEventListener('click', (e) => {
+			e.target.parentElement.parentElement.classList.toggle('overflow-y-hidden');
+			e.target.parentElement.parentElement.classList.toggle('overflow-y-scroll');
+			if(e.target.innerText === 'show more'){
+				e.target.innerText = 'hide';
+			} else {
+				e.target.innerText = "show more";
+			};
+		});
+}
+
+const addEvents = () => {
+	for (let event of calendars.events) {
 		let monthDay = event.date.slice(5, 10);
-		if (document.getElementById(monthDay)) {
-			const newEvent = document.createElement("div");
+		const dayOfEvent = document.getElementById(monthDay);
+		if (dayOfEvent) {
+			const newEvent = document.createElement("button");
+			newEvent.classList.add('btn', 'unstyled');
 			newEvent.setAttribute("data-bs-toggle", "popover");
 			newEvent.setAttribute("data-bs-trigger", "focus");
 			newEvent.setAttribute("data-bs-title", event.title);
-			let blob = `<div id="eventPopover-${event._id}">`;
-			if (event.time) {
-				blob += '<span class="eventTime">' + event.time + " </span>";
-			}
-			blob += `<span class="eventDateOrig d-none">${event.date}</span>`;
-			blob += '<span class="eventDate">' + numToMonth(+event.date.slice(5, 7) - 1) + " ";
-			let eventMonth = event.date.slice(8, 10);
-			if (eventMonth.startsWith(0)) {
-				eventMonth = eventMonth.slice(1);
-			}
-			blob += eventMonth + ", " + event.date.slice(0, 4) + "";
-			if (event.notes) {
-				blob += '</br><span class="eventNotes">' + event.notes + "</span></div>";
-			}
-			newEvent.setAttribute("data-bs-content", blob + popContent);
-			let newText = document.createElement("span");
+			newEvent.setAttribute("aria-haspopup", "true");
+			const [ popContent, details] = createPopoverContent(event);
+			newEvent.setAttribute("data-bs-content", details + popContent);
+
 			let dot = document.createElement('span');
 			dot.classList.add('mydot');
 			newEvent.appendChild(dot);
-			newText.setAttribute("role", "button");
-			newText.setAttribute("aria-haspopup", "true");
-			newText.classList.add("unstyled", "shiftL");
-			newText.setAttribute("tabindex", "0");
+
+			let newText = document.createElement("span");
+			newText.classList.add("shiftL");
 			newText.setAttribute("id", `event-${event._id}`);
-			newEvent.appendChild(newText);
 			newText.innerText = event.title;
-			document.getElementById( monthDay).children[1].appendChild(newEvent);
-			if(document.getElementById(monthDay).scrollHeight > document.getElementById(monthDay).offsetHeight){
-				let showOverflow = document.createElement('button');
-				showOverflow.classList.add('show-overflow', 'btn', 'btn-link');
-				showOverflow.setAttribute('type', 'button');
-				showOverflow.innerText = "show more";
-				document.getElementById(monthDay).children[0].appendChild(showOverflow);
-				showOverflow.addEventListener('click', (e) => {
-					e.target.parentElement.parentElement.classList.toggle('overflow-y-hidden');
-					e.target.parentElement.parentElement.classList.toggle('overflow-y-scroll');
-					if(e.target.innerText === 'show more'){
-						e.target.innerText = 'hide';
-					} else {
-						e.target.innerText = "show more";
-					};
-				});
+			newEvent.appendChild(newText);
+			dayOfEvent.children[1].appendChild(newEvent);
+
+			if(dayOfEvent.scrollHeight > dayOfEvent.offsetHeight){
+				addOverflowScroll(dayOfEvent);
 			};
 		};
 	};
+}
 
-	//Refreshing Popovers
+const refreshPopovers = () => {
 	try {
 		if(bootstrap){
 			const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
@@ -281,6 +275,20 @@ const buildCalendar = offset => {
 	} catch (error) {
 		console.log("Initial Load: No popover refresh");
 	}
+}
+
+const buildCalendar = offset => {
+	buildCalendarFrame();
+
+	//Set month heading
+	const selectedMonth = document.querySelectorAll(".calWeek")[1].children[3].id;
+	document.querySelector(".calMonth").innerText = (new Date(selectedMonth)).toLocaleDateString('default', {month: 'long'});
+
+	addMonthBorders();
+
+	addEvents();
+
+	refreshPopovers();
 };
 
 const offsetCalendar = direction => {
@@ -303,42 +311,44 @@ const customSubmitContacts = function () {
 	document.querySelector("#form-contact").requestSubmit();
 };
 
+const addEventHandlers = () => {
+	//Add Guest Demo Link Handler
+	if(document.getElementById("guest-link")){
+		window.addEventListener("load", function () {
+			document.getElementById("guest-link").addEventListener("click", function (e) {
+				e.preventDefault();
+				document.getElementById("demo-form").submit();
+			});
+		});
+	};
+	//Add Trash Form Event Listeners
+	document.querySelector("#trash-initial").addEventListener("change", function () {
+		document.querySelector("#both-check").classList.add("d-none");
+		document.querySelector("#trash-check").classList.add("d-none");
+		document.querySelector("#recycling-check").classList.remove("d-none");
+	});
+	document.querySelector("#recycling-initial").addEventListener("change", function () {
+		document.querySelector("#both-check").classList.add("d-none");
+		document.querySelector("#trash-check").classList.remove("d-none");
+		document.querySelector("#recycling-check").classList.add("d-none");
+	});
+	document.querySelector("#both-initial").addEventListener("change", function () {
+		document.querySelector("#both-check").classList.remove("d-none");
+		document.querySelector("#trash-check").classList.add("d-none");
+		document.querySelector("#recycling-check").classList.add("d-none");
+	});
+	//Adding Default Date Values
+	document.querySelector("#contacts-date").value = today.toISOString().slice(0, 10);
+	document.querySelector("#trash-date").value = today.toISOString().slice(0, 10);
+}
+
 const today = new Date(Date.now());
-const dl = 6 - today.getDay();
 console.dir(today);
 
 let offset = 0;
 
 // setBackground(today.toISOString().slice(0, 10));
+
 buildCalendar(offset);
 
-//Adding Guest Demo Link Handler
-if(document.getElementById("guest-link")){
-	window.addEventListener("load", function () {
-		document.getElementById("guest-link").addEventListener("click", function (e) {
-			e.preventDefault();
-			document.getElementById("demo-form").submit();
-		});
-	});
-};
-
-//Adding Trash Form Event Listeners
-document.querySelector("#trash-initial").addEventListener("change", function () {
-	document.querySelector("#both-check").classList.add("d-none");
-	document.querySelector("#trash-check").classList.add("d-none");
-	document.querySelector("#recycling-check").classList.remove("d-none");
-});
-document.querySelector("#recycling-initial").addEventListener("change", function () {
-	document.querySelector("#both-check").classList.add("d-none");
-	document.querySelector("#trash-check").classList.remove("d-none");
-	document.querySelector("#recycling-check").classList.add("d-none");
-});
-document.querySelector("#both-initial").addEventListener("change", function () {
-	document.querySelector("#both-check").classList.remove("d-none");
-	document.querySelector("#trash-check").classList.add("d-none");
-	document.querySelector("#recycling-check").classList.add("d-none");
-});
-
-//Adding Default Date Values
-document.querySelector("#contacts-date").value = today.toISOString().slice(0, 10);
-document.querySelector("#trash-date").value = today.toISOString().slice(0, 10);
+addEventHandlers();
