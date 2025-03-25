@@ -3,7 +3,7 @@
 	<div class="row align-items-center">
             <% for(let recipe of recipes){ %>
                 <div class="col-6 col-md-4 col-xl-3">
-                    <a class="card h-auto text-decoration-none mt-2" href="/recipes/<%= recipe._id %>" class="card-link">
+                    <a class="card card-link h-auto text-decoration-none mt-2" href="/recipes/<%= recipe._id %>">
                         <img src="<%= recipe.img %>" class="card-img-top" alt="<%= recipe.name %> thumbnail image"/>
                         <div class="card-body p-2">
                             <h5 class="card-title text-center mb-0"><%= recipe.name %></h5>

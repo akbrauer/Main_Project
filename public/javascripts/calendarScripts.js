@@ -152,7 +152,7 @@ const getTargetDate = function (daysFromToday) {
 	return new Date(withViewerOffset);
 };
 
-const fillCalendarDates = (targetWeek, targetDay, calDay, calDate) => {
+const fillCalendarDates = function (targetWeek, targetDay, calDay, calDate) {
 	const weeksBetween = targetWeek * 7;
 	const daysFromToday = targetDay - today.getDay() + weeksBetween;
 	const dateObj = getTargetDate(daysFromToday);
@@ -161,7 +161,7 @@ const fillCalendarDates = (targetWeek, targetDay, calDay, calDate) => {
 	calDay.setAttribute("id", dateObj.toISOString().slice(5,10));
 }
 
-const buildCalendarFrame = () => {
+const buildCalendarFrame = function () {
 	let calendarBody = document.querySelector(".calendar-body");
 	calendarBody.innerHTML = "";
 
@@ -191,7 +191,7 @@ const buildCalendarFrame = () => {
 	}
 }
 
-const createPopoverContent = (event) => {
+const createPopoverContent = function (event) {
 	let popContent = `<div class="d-flex flex-row-reverse popButtons mt-1">
 			<button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteEventModal" onclick="fillEventModal('delete', '${event._id}')">Delete</button>
 			<button class="btn btn-sm btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#editEventModal" onclick="fillEventModal('edit', '${event._id}')">Edit</button>
@@ -214,7 +214,7 @@ const createPopoverContent = (event) => {
 	return [popContent, details];
 }
 
-const addOverflowScroll = (element) => {
+const addOverflowScroll = function (element) {
 		let showOverflow = document.createElement('button');
 		showOverflow.classList.add('show-overflow', 'btn', 'btn-link');
 		showOverflow.setAttribute('type', 'button');
@@ -231,7 +231,7 @@ const addOverflowScroll = (element) => {
 		});
 }
 
-const addEvents = () => {
+const addEvents = function () {
 	for (let event of calendars.events) {
 		let monthDay = event.date.slice(5, 10);
 		const dayOfEvent = document.getElementById(monthDay);
@@ -263,7 +263,7 @@ const addEvents = () => {
 	};
 }
 
-const refreshPopovers = () => {
+const refreshPopovers = function () {
 	try {
 		if(bootstrap){
 			const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
@@ -277,7 +277,7 @@ const refreshPopovers = () => {
 	}
 }
 
-const buildCalendar = offset => {
+const buildCalendar = function (offset) {
 	buildCalendarFrame();
 
 	//Set month heading
@@ -311,7 +311,7 @@ const customSubmitContacts = function () {
 	document.querySelector("#form-contact").requestSubmit();
 };
 
-const addEventHandlers = () => {
+const addEventHandlers = function () {
 	//Add Guest Demo Link Handler
 	if(document.getElementById("guest-link")){
 		window.addEventListener("load", function () {
