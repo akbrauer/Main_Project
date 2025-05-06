@@ -7,23 +7,23 @@ const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-const ExpressError = require('./utils/ExpressError');
+const ExpressError = require('../utils/ExpressError');
 
 const session  = require("express-session");
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require("passport");
 const LocalStrategy = require('passport-local');
-const User = require('./models/user');
+const User = require('../models/user');
 
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
-const CSPConfig = require('./utils/helmetConfig');
+const CSPConfig = require('../utils/helmetConfig');
 
-const calendarRoutes = require('./routes/calendars');
-const recipeRoutes = require('./routes/recipes');
-const userRoutes = require('./routes/users');
-const adminRoutes = require('./routes/admins');
+const calendarRoutes = require('../routes/calendars');
+const recipeRoutes = require('../routes/recipes');
+const userRoutes = require('../routes/users');
+const adminRoutes = require('../routes/admins');
 
 const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017/akbrauer";
 mongoose.connect(dbURL);
